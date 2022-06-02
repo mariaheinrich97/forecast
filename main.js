@@ -74,7 +74,6 @@ loadWind("https://geographie.uibk.ac.at/webmapping/ecmwf/data/wind-10u-10v-europ
 
 // Wettervorhersage
 layerControl.addOverlay(overlays.weather, "Wettervorhersage met. no");
-
     let marker = L.circleMarker([
         47.267222, 11.392778 // s. URL loadWeather
     ]).bindPopup("Wettervorhersage").addTo(overlays.weather);
@@ -83,5 +82,11 @@ async function loadWeather(url) {
     const response = await fetch(url);
     const jsondata = await response.json();
     // console.log("geoJsonData:", jsondata);
+
+    // Marker positionieren
+    marker.setLatLng([
+        jsondata.geometry.coordinates[1],
+        jsondata.geometry.coordinates[0]
+    ]);
 };
 loadWeather("https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=47.267222&lon=11.392778");
