@@ -98,6 +98,7 @@ async function loadWeather(url) {
     let forecastLabel = formatDate(forecastDate);
     console.log("aktuelle Werte", forecastLabel);
 
+
     let popup = `
     <strong>Wettervorhersage für ${forecastLabel}</strong>
     <ul>
@@ -110,6 +111,13 @@ async function loadWeather(url) {
     <li> Windgeschwindigkeit: ${details.wind_speed * 3.6} (km/h) </li>
     </ul>
     `;
+
+    // Wettericon(s)
+    for (let i = 0; i <= 24; i += 3) {
+        let symbol = jsondata.properties.timeseries[i].data.next_1_hours.summary.symbol_code;
+        popup += `<img src ="icons/svg/${symbol}.svg" alt="${symbol}" style="width:32px">`;
+    }
+
 
     marker.setPopupContent(popup).openPopup();
 };
