@@ -92,7 +92,7 @@ async function loadWeather(url) {
     let details = jsondata.properties.timeseries[0].data.instant.details;
     // s. json-File Wetterdaten timeseries - 0 bedeutet erster Wert aufgerufen wird = aktuellster, da die letzten überschrieben werden
     //console.log("Aktuelle Wetterdaten", details);
-    
+
     let forecastDate = new Date(jsondata.properties.timeseries[0].time);
     console.log(forecastDate);
     let forecastLabel = formatDate(forecastDate);
@@ -112,7 +112,14 @@ async function loadWeather(url) {
     `;
 
     marker.setPopupContent(popup).openPopup();
-
-
 };
 loadWeather("https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=47.267222&lon=11.392778");
+
+// auf Klick auf die Karte reagieren
+map.on("click", function (evt) {
+    console.log(evt);
+    let url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${evt.latlng.lat}&lon=${evt.latlng.lng}`;
+    console.log(url);
+
+    loadWeather(url);
+});
