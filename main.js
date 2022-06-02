@@ -55,12 +55,20 @@ async function loadWind(url) {
     //console.log("Vorhersagezeitpunkt", formatDate(forecastDate));
 
     let forecastLabel = formatDate(forecastDate);
-
-    layerControl.addOverlay(overlays.wind, 'ECMWF Windvorhersage für ${forecastLabel}');
+    layerControl.addOverlay(overlays.wind, `ECMWF Windvorhersage für ${forecastLabel}`)
 
     // Daten aufrufen aus dist-Ordner
     L.velocityLayer({
-        data: jsondata
+        data: jsondata,
+        lineWidth: 3,
+        displayOptions: {
+            velocityType: "",
+            directionString: "Windrichtung",
+            speedString: "Windgeschwindigkeit",
+            speedUnit: "k/h",
+            emptyString: "keine Daten vorhanden",
+            position: "bottomright",
+        }
     }).addTo(overlays.wind);
 };
 loadWind("https://geographie.uibk.ac.at/webmapping/ecmwf/data/wind-10u-10v-europe.json");
