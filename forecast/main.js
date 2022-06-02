@@ -33,6 +33,11 @@ async function loadWind(url) {
     const response = await fetch(url);
     const jsondata = await response.json();
     console.log(jsondata); 
+    console.log(jsondata[0].header.refTime); // erstes Array [0] im header Attribut=refTime reftime aus Datenelement holen
+    console.log(jsondata[0].header.forecastTime);
+
+    let forecastDate = new Date(jsondata[0].header.refTime);
+    console.log(forecastDate);
 };
 loadWind("https://geographie.uibk.ac.at/webmapping/ecmwf/data/wind-10u-10v-europe.json");
 
