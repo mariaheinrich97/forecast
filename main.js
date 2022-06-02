@@ -32,12 +32,14 @@ L.control.scale({
 async function loadWind(url) {
     const response = await fetch(url);
     const jsondata = await response.json();
-    console.log(jsondata); 
-    console.log(jsondata[0].header.refTime); // erstes Array [0] im header Attribut=refTime reftime aus Datenelement holen
-    console.log(jsondata[0].header.forecastTime);
+    console.log("geoJsonData", jsondata);
+    console.log("Zeitpunkt Erstellung", jsondata[0].header.refTime); // erstes Array [0] im header Attribut=refTime reftime aus Datenelement holen
+    console.log("Zeitpunkt Gültigkeit", jsondata[0].header.forecastTime);
 
     let forecastDate = new Date(jsondata[0].header.refTime);
-    console.log(forecastDate);
+    console.log("Echtes Datum Erstellung", forecastDate);
+    forecastDate.setHours(forecastDate.getHours() + jsondata[0].header.forecastTime); // falls über Mitternacht --> nächster Tag > Anpassung, sodass es stimmt
+    console.log("Echtes Datum Gültigkeit", forecastDate);
 };
 loadWind("https://geographie.uibk.ac.at/webmapping/ecmwf/data/wind-10u-10v-europe.json");
 
