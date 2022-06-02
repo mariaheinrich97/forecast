@@ -32,9 +32,9 @@ L.control.scale({
 let formatDate = function (date) {
     return date.toLocaleDateString("de-AT", {
         month: "long",
-        day: "number",
+        day: "numeric",
         hour: "2-digit",
-        minute: "2-digit",
+        minute: "2-digit"
         //woher weiß ich das? > s. HowTo - Mozilla.org
     }) + "Uhr";
 };
@@ -44,17 +44,19 @@ let formatDate = function (date) {
 async function loadWind(url) {
     const response = await fetch(url);
     const jsondata = await response.json();
-    console.log("geoJsonData:", jsondata);
-    console.log("Zeitpunkt Erstellung:", jsondata[0].header.refTime); // erstes Array [0] im header Attribut=refTime reftime aus Datenelement holen
-    console.log("Zeitpunkt Gültigkeit:", jsondata[0].header.forecastTime);
+    //console.log("geoJsonData:", jsondata);
+    //console.log("Zeitpunkt Erstellung:", jsondata[0].header.refTime); // erstes Array [0] im header Attribut=refTime reftime aus Datenelement holen
+    //console.log("Zeitpunkt Gültigkeit:", jsondata[0].header.forecastTime);
 
     let forecastDate = new Date(jsondata[0].header.refTime);
-    console.log("Echtes Datum Erstellung:", forecastDate);
+    //console.log("Echtes Datum Erstellung:", forecastDate);
     forecastDate.setHours(forecastDate.getHours() + jsondata[0].header.forecastTime); // falls über Mitternacht --> nächster Tag > Anpassung, sodass es stimmt
-    console.log("Echtes Datum Gültigkeit:", forecastDate);
-    console.log("Vorhersagezeitpunkt", formatDate(forecastDate));
+    //console.log("Echtes Datum Gültigkeit:", forecastDate);
+    //console.log("Vorhersagezeitpunkt", formatDate(forecastDate));
 
     let forecastLabel = formatDate(forecastDate);
+
+    layerControl.addOverlay(overlays.wind, 'ECMWF Windvorhersage für ${forecastLabel}');
 };
 loadWind("https://geographie.uibk.ac.at/webmapping/ecmwf/data/wind-10u-10v-europe.json");
 
